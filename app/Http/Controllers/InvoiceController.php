@@ -31,7 +31,7 @@ class InvoiceController extends Controller
         $permitted_chars = '0123456789'; 
         $invoiceNumber = substr(str_shuffle($permitted_chars),0, 8);
         
-        //$iva = $request->input('value') * 0.10;
+        
 
         $invoice = new Invoice();
         $invoice->number = $invoiceNumber;
@@ -43,8 +43,11 @@ class InvoiceController extends Controller
         $invoice->hour = date("H:i");
         $invoice->save();      
 
+        //obtento el id de la factura que acabo de registrar para insertarla en la tabla
+        //de product_invoices
         $invoiceCreated = Invoice::latest('id')->first();
-
+        
+        //obtengo los item que provienen de un json el frontend
         $items = json_decode($request->input('items'), true );
         
         foreach ($items as $value) {
@@ -58,10 +61,10 @@ class InvoiceController extends Controller
             $valuesAux['updated_at'] = date('Y-m-d H:m:s');
             $values[] = $valuesAux;
            
-         }
+        }
 
          
-         ProductInvoice::insert($values);
+        ProductInvoice::insert($values);
 
         return response()->json(['message'=>'Factura generada'],200);
     }
@@ -72,8 +75,6 @@ class InvoiceController extends Controller
         date_default_timezone_set('America/Caracas');
 
         $invoice = Invoice::find($id);
-       // return $invoice->id;
-        //'username' => 'required|string|max:255|unique:users,username,'.$user->id, 
         $rules = [
           'number' => 'required|integer|unique:invoices,number,'.$invoice->id, 
           'seller_name' => 'required|string|max:255',
