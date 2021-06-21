@@ -1,0 +1,11 @@
+1- ejecutar el comando: composer install para instalar las dependencias necesarias del framework
+
+2- ejecutar el comando: php artisan migrate esto creara todas las tablas
+
+3- ejecutar el comando: php artisan db:seed esto llenara una tabla que tendra una serie
+   de productos para hacer pruebas
+
+4 - ejecutar el comando: php artisan passport:install este comando es necesario para que se
+    pueda iniciar sesion y no de fallo al intentar hacer login
+
+5- finalmente usar el comand: php artisan serve para levantar el server local
